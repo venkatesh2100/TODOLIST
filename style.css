@@ -266,14 +266,14 @@ p {
   width: 60px;
   height: 60px;
   z-index: 20;
-  background: var(--primary-color) url(../Logo/menu.png);
+  background: var(--primary-color) url(../Agency/Logo/menu.png);
   cursor: pointer;
   background-size: 30px;
   background-repeat: no-repeat;
   background-position: center;
 }
 .toggle.active {
-  background: var(--primary-color) url(../Logo/close.png);
+  background: var(--primary-color) url(../Agency/Logo/close.png);
   background-size: 25px;
   background-repeat: no-repeat;
   background-position: center;
