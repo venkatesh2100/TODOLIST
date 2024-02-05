@@ -127,3 +127,13 @@ h2{
   bottom: 0;
   opacity: 1;
 }
+@media (max-width: 768px) {
+  .box{
+    width:350px;
+  }
+  .video{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+}
