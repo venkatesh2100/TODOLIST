@@ -3,40 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TO-DOList</title>
+  <title>TO-DO List</title>
   <link rel="stylesheet" href="style.css">
-  <video autoplay loop muted playsinline  class="video" src="/Assets/Girlinabeach.mp4" type="vedio/mp4"></video>
+  <video autoplay loop muted playsinline class="video" src="Assets/Girlinabeach.mp4" type="video/mp4"></video>
 </head>
 <body>
   <div class="container">
     <div class="box">
-    <h2>TO DO List</h2>
-    <input type="text" placeholder="Write here..." id="inputBox">
-    <ul id="list"></ul>
+      <h2>TO DO List</h2>
+      <div id="time"></div>
+      <input type="text" placeholder="Write here..." id="inputBox">
+      <ul id="list"></ul>
+    </div>
   </div>
-</div>
-<script>let inputBox=document.querySelector('#inputBox');
-  let list=document.querySelector('#list');
-  
-  inputBox.addEventListener("keyup", function(event){
-    if(event.key=="Enter"){
-      addItem(this.value)
-      this.value=""
+  <script>
+    let inputBox = document.querySelector('#inputBox');
+    let list = document.querySelector('#list');
+    // let timeDisplay = document.querySelector('#time');
+    let dayDisplay=document.querySelector('#time');
+
+    function updateTime() {
+      const now = new Date();
+      const options={weekday:'long',day:'numeric',month:'long',year:'numeric'}
+      // const hours = now.getHours().toString().padStart(2, '0');
+      // const minutes = now.getMinutes().toString().padStart(2, '0');
+      // const seconds = now.getSeconds().toString().padStart(2, '0');
+    //  const currentTime = `${hours}:${minutes}:${seconds}`;
+     const formattedString=now.toLocaleDateString('en-us',options);
+    //  timeDisplay.textContent=`${currentTime}`;
+      dayDisplay.textContent = `${formattedString}`;
+      
     }
-  })
-  let addItem=(inputBox)=>{
-    let listItem=document.createElement("li");
-    listItem.innerHTML=`${inputBox}<i>`;
-      listItem.addEventListener("click",function(){
-        this.classList.toggle('done')
-      })
 
-      listItem.querySelector("i").addEventListener("click",function(){
+    setInterval(updateTime, 1000);
 
+    // Load tasks from local storage when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      loadTasks();
+    });
+
+    inputBox.addEventListener("keyup", function(event) {
+      if (event.key === "Enter") {
+        addItem(this.value);
+        this.value = "";
+      }
+    });
+
+    let addItem = (inputBoxValue) => {
+      let listItem = document.createElement("li");
+      listItem.innerHTML = `${inputBoxValue}<i>`;
+      
+      listItem.addEventListener("click", function() {
+        this.classList.toggle('done');
+        saveTasks();
+      });
+
+      listItem.querySelector("i").addEventListener("click", function() {
         listItem.remove();
-      })
-  
-    list.appendChild(listItem);
-  }</script>
+        saveTasks();
+      });
+
+      list.appendChild(listItem);
+      saveTasks();
+    };
+
+    // Save tasks to local storage
+    function saveTasks() {
+      const tasks = Array.from(list.children).map(item => item.textContent.replace('i', '').trim());
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    // Load tasks from local storage
+    function loadTasks() {
+      const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+      storedTasks.forEach(task => addItem(task));
+    }
+  </script>
 </body>
+<div class="name"><a href="https://www.instagram.com/venky_official_insta/">VENKY <br> <img src="/Assets/user-secreat.svg" alt="Imge"> </a></div>
 </html>
